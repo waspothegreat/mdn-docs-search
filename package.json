@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/waspothegreat/mdn-docs-search.git"
   },
-  "author": "Waspothegreat <waspothegreat@gmail.com>",
+  "author": "waspothegreat <waspothegreat@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/waspothegreat/mdn-docs-search/issues"
