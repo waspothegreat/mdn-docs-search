@@ -1,0 +1,24 @@
+{
+  "name": "mdn-docs-search",
+  "version": "1.0.0",
+  "description": "Searches the mdn docs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waspothegreat/mdn-docs-search.git"
+  },
+  "author": "Waspothegreat <waspothegreat@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/waspothegreat/mdn-docs-search/issues"
+  },
+  "homepage": "https://github.com/waspothegreat/mdn-docs-search#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "node-superfetch": "^0.1.9",
+    "turndown": "^5.0.1"
+  }
+}
