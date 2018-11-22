@@ -9,12 +9,12 @@ const MDNDocs = require('mdn-docs-search');
 
 // Create an async function for resolving the result
 async function searchDocs() {
-  const result = await MDNDocs.search('Map.prototype.delete');
-  const docs = await MDNDocs.load(result);
+  const result = await MDNDocs.search('Map.prototype.delete'); // Search the docs
+  const docs = await MDNDocs.load(result); // Load the url from searching the docs
   return docs.name; // get the name
 }
 
-searchDocs();
+await searchDocs(); // Use the function
 ```
 
 # Properties
