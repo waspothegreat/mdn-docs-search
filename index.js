@@ -10,10 +10,10 @@ turndown.addRule("hyperlink", {
 class MDNDocs {
 
     static async search(query = null) {
-        if (!query) throw "No query specified.";        
+        if (!query) return "No query specified.";        
         const $ = cheerio.load((await request.get(`https://developer.mozilla.org/en-US/search?q=${encodeURIComponent(query)}&topic=js`)).text);
         let resText = $("div[class=\"search-pane search-results-explanation\"]");
-        resText = resText.children("p").text().split("\n").map(t => t.trim()).filter(t => t!=="").join("\n");
+        resText = resText.children("p").text().split("\n").map(t => t.trim()).filter(t => t !== "").join("\n");
         if (resText === `0 documents found for "${query}" in English (US).`) return null;
         let resultUrl = $("li[class=\"result-1\"]")
             .children("div[class=\"column-container\"]")
