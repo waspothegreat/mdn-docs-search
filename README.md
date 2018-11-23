@@ -1,4 +1,7 @@
-# mdn-docs-search
+# Mdn-docs-search
+ [![Downloads](https://img.shields.io/npm/dt/mdn-docs-search.svg?maxAge=3600)](https://www.npmjs.com/package/mdn-docs-search)
+ [![Version](https://img.shields.io/npm/v/mdn-docs-search.svg?maxAge=3600)](https://www.npmjs.com/package/mdn-docs-search)
+
 A small package made to search the mdn docs
 
 # Usage
