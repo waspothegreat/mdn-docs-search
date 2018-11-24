@@ -1,5 +1,6 @@
 const request = require("node-superfetch");
 const cheerio = require("cheerio");
+const st = require('striptags');
 const Turndown = require('turndown');
 const turndown = new Turndown();
 turndown.addRule("hyperlink", {
@@ -47,6 +48,15 @@ class MDNDocResult {
     get url() {
         return this.$("meta[property=\"og:url\"]").attr("content");
     }
+   
+    get syntax() {
+        const regex = /<h[1-6] id="Syntax">Syntax<\/h[1-6]>/;
+        const indexes = this.text.split("\n").map(t => t.trim()).filter(t => t !== "");
+        let index = indexes.indexOf(regex.test(this.text) ? regex.exec(this.text)[0] : null);
+        if (index === -1) return null;
+        const $ = cheerio.load(indexes.slice(index + 1).join("\n"));
+        return st($("pre").first().html())
+    }
 
     get params() {
         const regex = /<h[1-6] id="Parameters">Parameters<\/h[1-6]>/;
@@ -56,7 +66,7 @@ class MDNDocResult {
         const params = [];
         const text = indexes.slice(index + 1).join("\n");
         const $ = cheerio.load(text);
-        $("dl").first().children().map((_, e) => params.push(md($(e).html())));
+        $("dl").first().children().map((_, e) => params.push(st($(e).html()).replace(/(&.*;|&#xA;)/g, " ").replace(/Optional/g, ' (Optional)').replace(/Value/g, ' (Value)').replace(/[\r\n]+/g, '\n')))
         return chunk(params, 2);
     }
 

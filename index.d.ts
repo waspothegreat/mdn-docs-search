@@ -9,6 +9,7 @@ class MDNDocResult {
     public get name(): Promise<string>;
     public get description(): Promise<string>;
     public get url(): Promise<string>;
+    public get syntax(): Promise<string>;
     public get params(): Promise<Array<Array<string>>> | Promise<null>;
     public get methods(): Promise<Array<Array<string>>> | Promise<null>;
     public get returnValue(): Promise<string> | Promise<null>;
