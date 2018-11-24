@@ -55,7 +55,7 @@ class MDNDocResult {
         let index = indexes.indexOf(regex.test(this.text) ? regex.exec(this.text)[0] : null);
         if (index === -1) return null;
         const $ = cheerio.load(indexes.slice(index + 1).join("\n"));
-        return st($("pre").first().html())
+        return st($("pre").first().html());
     }
 
     get params() {
@@ -66,7 +66,7 @@ class MDNDocResult {
         const params = [];
         const text = indexes.slice(index + 1).join("\n");
         const $ = cheerio.load(text);
-        $("dl").first().children().map((_, e) => params.push(st($(e).html()).replace(/(&.*;|&#xA;)/g, " ").replace(/Optional/g, ' (Optional)').replace(/Value/g, ' (Value)').replace(/[\r\n]+/g, '\n')))
+        $("dl").first().children().map((_, e) => params.push(st($(e).html()).replace(/(&.*;|&#xA;)/g, " ").replace(/Optional/g, ' (Optional)').replace(/Value/g, ' (Value)').replace(/[\r\n]+/g, '\n')));
         return chunk(params, 2);
     }
 
@@ -103,5 +103,4 @@ function chunk(arr, len) {
 function md(html) {
     return turndown.turndown(html);
 }
-
 module.exports = MDNDocs;
