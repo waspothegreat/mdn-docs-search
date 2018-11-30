@@ -26,6 +26,7 @@ await searchDocs(); // Use the function
 * **name** - Name of the page
 * **description** - Description of the page, hyperlink support included
 * **url** - Url of the page
+* **examples** - Examples box of the page, if any
 * **syntax** - Syntax box of the page, if any
 * **params** - Parameters of the page, parameters sorted and hyperlink support included
 * **methods** - Methods for the page, if any
