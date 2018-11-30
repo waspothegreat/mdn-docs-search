@@ -48,7 +48,19 @@ class MDNDocResult {
     get url() {
         return this.$("meta[property=\"og:url\"]").attr("content");
     }
-   
+    
+    get examples() {
+        const rgx = /<h[1-6] id="Examples">Examples<\/h[1-6]>/;
+        const indexes = this.text.split("\n").map(t=>t.trim().replace(/[\n]+/g, "\n"))
+        let index = indexes.indexOf(rgx.test(this.text) ? rgx.exec(this.text)[0] : null);
+        if (index === -1) return null;
+        const $ = cheerio.load(indexes.slice(index+1).join('\n'));
+        return st($('pre').first().html())
+        .replace(/&gt;/g, '>')
+        .replace(/&apos;/g, `'`)
+        .replace(/&quot;/g, `"`)
+    }
+    
     get syntax() {
         const regex = /<h[1-6] id="Syntax">Syntax<\/h[1-6]>/;
         const indexes = this.text.split("\n").map(t => t.trim()).filter(t => t !== "");
@@ -82,7 +94,7 @@ class MDNDocResult {
         const params = [];
         const text = indexes.slice(index + 1).join("\n");
         const $ = cheerio.load(text);
-        $("dl").first().children().map((_, e) => params.push(st($(e).html()).replace(/(&.*;|&#xA;)/g, " ").replace(/Optional/g, ' (Optional)').replace(/Value/g, ' (Value)').replace(/[\r\n]+/g, '\n')));
+        $("dl").first().children().map((_, e) => params.push(st($(e).html()).replace(/(&.*;|&#xA;)/g, " ").replace(/Optional/g, ' (Optional)').replace(/Value/g, ' Value').replace(/[\r\n]+/g, '\n')));
         return chunk(params, 2);
     }
 
