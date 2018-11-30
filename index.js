@@ -50,17 +50,17 @@ class MDNDocResult {
     }
     
     get examples() {
-        const rgx = /<h[1-6] id="Examples">Examples<\/h[1-6]>/;
-        const indexes = this.text.split("\n").map(t=>t.trim().replace(/[\n]+/g, "\n"))
-        let index = indexes.indexOf(rgx.test(this.text) ? rgx.exec(this.text)[0] : null);
+        const regex = /<h[1-6] id="Examples">Examples<\/h[1-6]>/;
+        const indexes = this.text.split("\n").map(t => t.trim().replace(/[\n]+/g, "\n"));
+        let index = indexes.indexOf(regex.test(this.text) ? regex.exec(this.text)[0] : null);
         if (index === -1) return null;
-        const $ = cheerio.load(indexes.slice(index+1).join('\n'));
+        const $ = cheerio.load(indexes.slice(index + 1).join('\n'));
         return st($('pre').first().html())
-        .replace(/&gt;/g, '>')
-        .replace(/&apos;/g, `'`)
-        .replace(/&quot;/g, `"`)
+            .replace(/&gt;/g, '>')
+            .replace(/&apos;/g, `'`)
+            .replace(/&quot;/g, `"`);
     }
-    
+
     get syntax() {
         const regex = /<h[1-6] id="Syntax">Syntax<\/h[1-6]>/;
         const indexes = this.text.split("\n").map(t => t.trim()).filter(t => t !== "");
