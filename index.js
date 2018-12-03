@@ -11,7 +11,7 @@ turndown.addRule("hyperlink", {
 class MDNDocs {
 
     static async search(query = null) {
-        if (!query) return "No query specified.";        
+        if (!query) return "No query specified.";
         const $ = cheerio.load((await request.get(`https://developer.mozilla.org/en-US/search?q=${encodeURIComponent(query)}&topic=js`)).text);
         let resText = $("div[class=\"search-pane search-results-explanation\"]");
         resText = resText.children("p").text().split("\n").map(t => t.trim()).filter(t => t !== "").join("\n");
@@ -48,7 +48,7 @@ class MDNDocResult {
     get url() {
         return this.$("meta[property=\"og:url\"]").attr("content");
     }
-    
+
     get examples() {
         const regex = /<h[1-6] id="Examples">Examples<\/h[1-6]>/;
         const indexes = this.text.split("\n").map(t => t.trim().replace(/[\n]+/g, "\n"));
@@ -96,6 +96,17 @@ class MDNDocResult {
         const $ = cheerio.load(text);
         $("dl").first().children().map((_, e) => params.push(st($(e).html()).replace(/(&.*;|&#xA;)/g, " ").replace(/Optional/g, ' (Optional)').replace(/Value/g, ' Value').replace(/[\r\n]+/g, '\n')));
         return chunk(params, 2);
+    }
+
+    get pageDescription() {
+        const regex = /<h[1-6] id="Description">Description<\/h[1-6]>/;
+        const indexes = this.text.split("\n").map(t => t.trim()).filter(t => t !== "");
+        let index = indexes.indexOf(regex.test(this.text) ? regex.exec(this.text)[0] : null);
+        if (index === -1) return null;
+        const params = [];
+        const text = indexes.slice(index + 1).join("\n");
+        const $ = cheerio.load(text);
+        return md($("p").first().html());
     }
 
     get methods() {
