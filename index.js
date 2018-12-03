@@ -103,7 +103,6 @@ class MDNDocResult {
         const indexes = this.text.split("\n").map(t => t.trim()).filter(t => t !== "");
         let index = indexes.indexOf(regex.test(this.text) ? regex.exec(this.text)[0] : null);
         if (index === -1) return null;
-        const params = [];
         const text = indexes.slice(index + 1).join("\n");
         const $ = cheerio.load(text);
         return md($("p").first().html());
