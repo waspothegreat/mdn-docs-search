@@ -13,6 +13,7 @@ class MDNDocResult {
     public get syntax(): Promise<string> | Promise<null>;
     public get params(): Promise<Array<Array<string>>> | Promise<null>;
     public get pageDescription(): Promise<string> | Promise<null>;
+    public get seeAlso(): Promise<string> | Promise<null>;
     public get methods(): Promise<Array<Array<string>>> | Promise<null>;
     public get returnValue(): Promise<string> | Promise<null>;
 }

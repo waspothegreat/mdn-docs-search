@@ -30,6 +30,7 @@ await searchDocs(); // Use the function
 * **syntax** - Syntax box of the page, if any
 * **params** - Parameters of the page, parameters sorted and markdown support included
 * **pageDescription** - `Description` section of the page, if any, markdown support included
+* **seeAlso** - `See also` section of the page, if any, markdown support included
 * **methods** - Methods for the page, if any
 * **returnValue** - Return value for the page, if any
 

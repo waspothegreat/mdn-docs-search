@@ -108,6 +108,16 @@ class MDNDocResult {
         return md($("p").first().html());
     }
 
+    get seeAlso() {
+        const regex = /<h[1-6] id="See_also">See also<\/h[1-6]>/;
+        const indexes = this.text.split("\n").map(t => t.trim()).filter(t => t !== "");
+        let index = indexes.indexOf(regex.test(this.text) ? regex.exec(this.text)[0] : null);
+        if (index === -1) return null;
+        const text = indexes.slice(index + 1).join("\n");
+        const $ = cheerio.load(text);
+        return md($("ul").first().html());
+    }
+
     get methods() {
         const regex = /<h[1-6] id="Methods">Methods<\/h[1-6]>/;
         const indexes = this.text.split("\n").map(t => t.trim()).filter(t => t !== "");
