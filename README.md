@@ -26,13 +26,14 @@ await searchDocs(); // Use the function
 * **name** - Name of the page
 * **description** - Description of the page, markdown support included
 * **url** - Url of the page
-* **examples** - Examples box of the page, if any
-* **syntax** - Syntax box of the page, if any
-* **params** - Parameters of the page, parameters sorted and markdown support included
+* **examples** - `Examples` section of the page, if any
+* **polyfill** - `Polyfill` section of the page, if any
+* **syntax** - `Syntax` section of the page, if any
+* **params** - `Parameters` section of the page, parameters sorted and markdown support included
 * **pageDescription** - `Description` section of the page, if any, markdown support included
 * **seeAlso** - `See also` section of the page, if any, markdown support included
-* **methods** - Methods for the page, if any
-* **returnValue** - Return value for the page, if any
+* **methods** - `Methods` section of the page, if any
+* **returnValue** - `Return value` of the page, if any
 
 # Contributing
 

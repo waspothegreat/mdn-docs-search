@@ -61,6 +61,19 @@ class MDNDocResult {
             .replace(/&quot;/g, `"`);
     }
 
+    get polyfill() {
+        const regex = /<h[1-6] id="Polyfill">Polyfill<\/h[1-6]>/;
+        const indexes = this.text.split("\n").map(t => t.trim().replace(/[\n]+/g, "\n"));
+        let index = indexes.indexOf(regex.test(this.text) ? regex.exec(this.text)[0] : null);
+        if (index === -1) return null;
+        const $ = cheerio.load(indexes.slice(index + 1).join('\n'));
+        return st($('pre').first().html())
+            .replace(/&gt;/g, '>')
+            .replace(/&apos;/g, `'`)
+            .replace(/&quot;/g, `"`)
+            .replace(/&amp;/g, '&');
+    }
+
     get syntax() {
         const regex = /<h[1-6] id="Syntax">Syntax<\/h[1-6]>/;
         const indexes = this.text.split("\n").map(t => t.trim()).filter(t => t !== "");
