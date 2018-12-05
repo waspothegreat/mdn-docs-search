@@ -77,7 +77,7 @@ class MDNDocResult {
         const params = [];
         const text = indexes.slice(index + 1).join("\n");
         const $ = cheerio.load(text);
-        $("dl").first().children().map((_, e) => params.push(md($(e).html()).replace(/Optional/g, ' (Optional)').replace(/Value/g, ' Value').replace(/[\r\n]+/g, '\n')));
+        $("dl").first().children().map((_, e) => params.push(md($(e).html()).replace(/(&.*;|&#xA;)/g, " ").replace(/Optional/g, ' (Optional)').replace(/Value/g, ' Value').replace(/[\r\n]+/g, '\n')));
         return chunk(params, 2);
     }
 
