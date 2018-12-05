@@ -1,13 +1,6 @@
 const request = require("node-superfetch");
 const cheerio = require("cheerio");
-const st = require('striptags');
-const Turndown = require('turndown');
-const turndown = new Turndown();
-turndown.addRule("hyperlink", {
-    filter: "a",
-    replacement: (text, node) => `[${text}](https://developer.mozilla.org${node.href})`
-});
-
+const html2md = require('html-markdown');
 class MDNDocs {
 
     static async search(query = null) {
@@ -55,10 +48,7 @@ class MDNDocResult {
         let index = indexes.indexOf(regex.test(this.text) ? regex.exec(this.text)[0] : null);
         if (index === -1) return null;
         const $ = cheerio.load(indexes.slice(index + 1).join('\n'));
-        return st($('pre').first().html())
-            .replace(/&gt;/g, '>')
-            .replace(/&apos;/g, `'`)
-            .replace(/&quot;/g, `"`);
+        return md($('pre').first().html());
     }
 
     get polyfill() {
@@ -67,11 +57,7 @@ class MDNDocResult {
         let index = indexes.indexOf(regex.test(this.text) ? regex.exec(this.text)[0] : null);
         if (index === -1) return null;
         const $ = cheerio.load(indexes.slice(index + 1).join('\n'));
-        return st($('pre').first().html())
-            .replace(/&gt;/g, '>')
-            .replace(/&apos;/g, `'`)
-            .replace(/&quot;/g, `"`)
-            .replace(/&amp;/g, '&');
+        return md($('pre').first().html());
     }
 
     get syntax() {
@@ -80,23 +66,7 @@ class MDNDocResult {
         let index = indexes.indexOf(regex.test(this.text) ? regex.exec(this.text)[0] : null);
         if (index === -1) return null;
         const $ = cheerio.load(indexes.slice(index + 1).join("\n"));
-        return st($("pre").first().html())
-            .replace(/&gt;/g, '>')
-            .replace(/&#x2026;/g, '...')
-            .replace(/&apos;/g, `'`)
-            .replace(/&quot;/g, `"`)
-            .replace(/&#x4E2D;&#x6587;/, '中文')
-            .replace(/&#xF1;/g, 'ñ')
-            .replace(/&#xA0;&#x926;&#x947;&#x935;&#x928;&#x93E;&#x917;&#x930;&#x940;/g, ' देवनागरी')
-            .replace(/&#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;/g, 'العربية ')
-            .replace(/&#xEA;/g, 'ê')
-            .replace(/&#x9AC;&#x9BE;&#x982;&#x9B2;&#x9BE;/g, 'বাংলা ')
-            .replace(/&#x440;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;/g, 'русский ')
-            .replace(/&#x65E5;&#x672C;&#x8A9E;/g, '日本語')
-            .replace(/&#xA2A;&#xA70;&#xA1C;&#xA3E;&#xA2C;&#xA40;/g, 'ਪੰਜਾਬੀ')
-            .replace(/&#xD55C;&#xAD6D;&#xC5B4;/g, '한국어')
-            .replace(/&#xBA4;&#xBAE;&#xBBF;&#xBB4;&#xBCD;/g, 'தமிழ்')
-            .replace(/&#x5E2;&#x5D1;&#x5E8;&#x5D9;&#x5EA;/g, 'עברית');
+        return md($("pre").first().html());
     }
 
     get params() {
@@ -107,7 +77,7 @@ class MDNDocResult {
         const params = [];
         const text = indexes.slice(index + 1).join("\n");
         const $ = cheerio.load(text);
-        $("dl").first().children().map((_, e) => params.push(st($(e).html()).replace(/(&.*;|&#xA;)/g, " ").replace(/Optional/g, ' (Optional)').replace(/Value/g, ' Value').replace(/[\r\n]+/g, '\n')));
+        $("dl").first().children().map((_, e) => params.push(md($(e).html()).replace(/Optional/g, ' (Optional)').replace(/Value/g, ' Value').replace(/[\r\n]+/g, '\n')));
         return chunk(params, 2);
     }
 
@@ -162,6 +132,6 @@ function chunk(arr, len) {
 }
 
 function md(html) {
-    return turndown.turndown(html);
+    return html2md.html2mdFromString(html);
 }
 module.exports = MDNDocs;
