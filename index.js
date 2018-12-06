@@ -66,7 +66,7 @@ class MDNDocResult {
         let index = indexes.indexOf(regex.test(this.text) ? regex.exec(this.text)[0] : null);
         if (index === -1) return null;
         const $ = cheerio.load(indexes.slice(index + 1).join("\n"));
-        return md($("pre").first().html());
+        return md($("pre").first().html().replace(/<[^>]+>/g, ''));
     }
 
     get params() {
@@ -77,7 +77,7 @@ class MDNDocResult {
         const params = [];
         const text = indexes.slice(index + 1).join("\n");
         const $ = cheerio.load(text);
-        $("dl").first().children().map((_, e) => params.push(md($(e).html()).replace(/(&.*;|&#xA;)/g, " ").replace(/Optional/g, ' (Optional)').replace(/Value/g, ' Value').replace(/[\r\n]+/g, '\n')));
+        $("dl").first().children().map((_, e) => params.push(md($(e).html()).replace(/<[^>]+>/g, '').replace(/(&.*;|&#xA;)/g, " ").replace(/Optional/g, ' (Optional)').replace(/Value/g, ' Value').replace(/[\r\n]+/g, '\n')));
         return chunk(params, 2);
     }
 
@@ -98,7 +98,7 @@ class MDNDocResult {
         if (index === -1) return null;
         const text = indexes.slice(index + 1).join("\n");
         const $ = cheerio.load(text);
-        return md($("ul").first().html());
+        return md($("ul").first().html()).replace(/\d+\./g, '- ');
     }
 
     get methods() {
@@ -109,7 +109,7 @@ class MDNDocResult {
         const methods = [];
         const text = indexes.slice(index + 1).join("\n");
         const $ = cheerio.load(text);
-        $("dl").first().children().map((_, e) => methods.push(md($(e).html())));
+        $("dl").first().children().map((_, e) => methods.push(md($(e).html()).replace(/<[^>]+>/g, '')));
         return chunk(methods, 2);
     }
 
