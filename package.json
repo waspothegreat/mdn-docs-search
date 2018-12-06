@@ -1,6 +1,6 @@
 {
   "name": "mdn-docs-search",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Searches the mdn docs",
   "main": "index.js",
   "typings": "index.d.ts",
