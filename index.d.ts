@@ -9,14 +9,14 @@ class MDNDocResult {
     public get name(): Promise<string>;
     public get description(): Promise<string>;
     public get url(): Promise<string>;
-    public get examples(): Promise<string> | Promise<null>;
-    public get polyfill(): Promise<string> | Promise<null>;
-    public get syntax(): Promise<string> | Promise<null>;
-    public get params(): Promise<Array<Array<string>>> | Promise<null>;
-    public get pageDescription(): Promise<string> | Promise<null>;
-    public get seeAlso(): Promise<string> | Promise<null>;
-    public get methods(): Promise<Array<Array<string>>> | Promise<null>;
-    public get returnValue(): Promise<string> | Promise<null>;
+    public get examples(): Promise<string | null>;
+    public get polyfill(): Promise<string | null>;
+    public get syntax(): Promise<string | null>;
+    public get params(): Promise<Array<Array<string>> | null>;
+    public get pageDescription(): Promise<string | null>;
+    public get seeAlso(): Promise<string | null>;
+    public get methods(): Promise<Array<Array<string>>| null>;
+    public get returnValue(): Promise<string | null>;
 }
 
 export = MDNDocs;
