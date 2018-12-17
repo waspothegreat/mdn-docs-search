@@ -4,7 +4,7 @@ declare class MDNDocs {
 }
 
 class MDNDocResult {
-    public constructor(public text?: string);
+    public constructor(public text: string | null);
     public readonly $: Promise<object>;
     public get name(): Promise<string>;
     public get description(): Promise<string>;
