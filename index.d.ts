@@ -1,6 +1,6 @@
 declare class MDNDocs {
-    public static search(query?: any): Promise<string>;
-    public static load(result: any): Promise<MDNDocResult>;
+    public static search(query?: string): Promise<string>;
+    public static load(result: string): Promise<MDNDocResult>;
 }
 
 declare class MDNDocResult {
